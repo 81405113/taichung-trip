@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台中三天兩夜｜生日旅行行程</title>
+<style>
+:root{
+  --bg:#faf6f0; --card:#ffffff; --ink:#2b2622; --sub:#6f655b; --line:#e8dfd3;
+  --accent:#c4562b; --accent-soft:#fbe9e0; --ok:#2f7d4f; --ok-soft:#e3f3e9;
+  --est:#8a6d1d; --est-soft:#fbf1d3; --warn:#b3261e; --rain:#2c5f8a; --rain-soft:#e1eef8;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1b1815; --card:#262220; --ink:#f1ebe3; --sub:#a99d90; --line:#3a342f;
+    --accent:#f08a5d; --accent-soft:#3b2519; --ok:#6fcf97; --ok-soft:#1f3328;
+    --est:#e6c565; --est-soft:#3a3118; --warn:#ff8a80; --rain:#7fb8e6; --rain-soft:#1c2c3a;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  line-height:1.65; font-size:16px;
+}
+.wrap{max-width:720px; margin:0 auto; padding:20px 16px 64px}
+header h1{font-size:24px; margin:4px 0 4px; letter-spacing:.02em}
+header .meta{color:var(--sub); font-size:14px}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0}
+.chip{font-size:13px; padding:4px 10px; border-radius:999px; background:var(--card); border:1px solid var(--line)}
+.legend{display:flex; flex-wrap:wrap; gap:8px 14px; margin:16px 0 4px; font-size:13px; color:var(--sub)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.tag{display:inline-block; font-size:11px; font-weight:600; padding:1px 7px; border-radius:999px; vertical-align:1px; margin-left:6px; white-space:nowrap}
+.tag.ok{background:var(--ok-soft); color:var(--ok)}
+.tag.est{background:var(--est-soft); color:var(--est)}
+.tag.chk{background:var(--accent-soft); color:var(--accent)}
+
+.weather{margin:16px 0 4px; padding:12px 14px; border-radius:14px; background:var(--card); border:1px solid var(--line); font-size:14px}
+.weather b{font-weight:600}
+.weather .days{display:flex; gap:8px; margin-top:8px}
+.weather .d{flex:1; text-align:center; padding:8px 4px; border-radius:10px; background:var(--bg)}
+.weather .d small{display:block; color:var(--sub)}
+
+nav.tabs{
+  position:sticky; top:0; z-index:5; display:flex; gap:6px; margin:16px -16px 0; padding:10px 16px;
+  background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line); overflow-x:auto;
+}
+nav.tabs button{
+  flex:1 0 auto; font:inherit; font-size:14px; padding:8px 14px; border-radius:10px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--ink); white-space:nowrap;
+}
+nav.tabs button[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600}
+nav.tabs button.rain[aria-selected="true"]{background:var(--rain); border-color:var(--rain)}
+
+section.day{display:none; padding-top:18px}
+section.day.on{display:block}
+.dayhead h2{font-size:20px; margin:0 0 2px}
+.dayhead p{margin:0 0 14px; color:var(--sub); font-size:14px}
+.birthday{display:inline-block; margin-left:6px}
+
+ol.tl{list-style:none; margin:0; padding:0; position:relative}
+ol.tl::before{content:""; position:absolute; left:61px; top:6px; bottom:6px; width:2px; background:var(--line)}
+ol.tl li{display:grid; grid-template-columns:52px 1fr; gap:0 22px; padding:0 0 16px; position:relative}
+ol.tl .t{font-size:13px; font-weight:600; color:var(--accent); text-align:right; padding-top:12px; font-variant-numeric:tabular-nums; line-height:1.3}
+ol.tl .t small{display:block; font-weight:400; color:var(--sub)}
+ol.tl li::after{content:""; position:absolute; left:56px; top:16px; width:12px; height:12px; border-radius:50%; background:var(--bg); border:3px solid var(--accent)}
+ol.tl li.move::after{border-color:var(--line); width:8px; height:8px; left:58px; top:19px; border-width:2px}
+.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px}
+.card h3{font-size:16px; margin:0 0 4px}
+.card p{margin:4px 0 0; font-size:14px; color:var(--sub)}
+.card p.main{color:var(--ink)}
+.card a.map{display:inline-block; margin-top:6px; font-size:13px; color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent)}
+.card .phone{font-size:13px; color:var(--sub); margin-top:4px}
+li.move .card{background:transparent; border-style:dashed; padding:8px 12px}
+li.move .card h3{font-size:14px; font-weight:500; color:var(--sub); margin:0}
+li.move .card p{font-size:13px}
+li.fixed .card{border-color:var(--ok); border-width:1.5px}
+li.deadline .card{border-color:var(--warn); border-width:1.5px}
+.note{margin:6px 0 0; font-size:13px; padding:6px 10px; border-radius:8px; background:var(--est-soft); color:var(--est)}
+.note.warn{background:var(--accent-soft); color:var(--warn)}
+
+.rainbox{border:1px solid var(--rain); background:var(--rain-soft); border-radius:14px; padding:12px 14px; margin-bottom:14px; font-size:14px}
+.rainbox h3{margin:0 0 6px; font-size:16px; color:var(--rain)}
+.rainbox ul{margin:6px 0 0; padding-left:18px}
+.rainbox li{margin:3px 0}
+
+.todo{margin-top:26px; padding:14px; border-radius:14px; background:var(--card); border:1px solid var(--line)}
+.todo h2{font-size:16px; margin:0 0 6px}
+.todo ul{margin:0; padding-left:18px; font-size:14px; color:var(--sub)}
+.todo li{margin:4px 0}
+footer{margin-top:22px; font-size:12px; color:var(--sub)}
+@media (min-width:560px){ ol.tl{padding-left:0} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="meta">老婆生日旅行 🎂</div>
+  <h1>台中三天兩夜</h1>
+  <div class="meta">2026/11/15（日）– 11/17（二）・兩人</div>
+  <div class="chips">
+    <span class="chip">🚆 台鐵往返（新左營 ⇄ 台中）</span>
+    <span class="chip">🚲 11/15 YouBike</span>
+    <span class="chip">🛵 11/16–17 租機車（中興租車）</span>
+  </div>
+</header>
+
+<div class="legend">
+  <span><span class="tag ok">已訂</span> 已確認或已訂位</span>
+  <span><span class="tag est">估</span> 估算時間，以導航為準</span>
+</div>
+
+<div class="weather">
+  <b>天氣預報</b>（2026/11/14 查詢）
+  <div class="days">
+    <div class="d"><b>11/15 日</b><small>降雨 15%</small><small>20–27°C</small></div>
+    <div class="d"><b>11/16 一</b><small>降雨 0%</small><small>19–27°C</small></div>
+    <div class="d"><b>11/17 二</b><small>降雨 0%</small><small>18–28°C</small></div>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist" aria-label="切換日期">
+  <button role="tab" data-tab="day1" aria-selected="true">11/15 日</button>
+  <button role="tab" data-tab="day2" aria-selected="false">11/16 一</button>
+  <button role="tab" data-tab="day3" aria-selected="false">11/17 二 🎂</button>
+  <button role="tab" class="rain" data-tab="rain" aria-selected="false">☔ 雨天備案</button>
+</nav>
+
+<!-- ============ DAY 1 ============ -->
+<section class="day on" id="day1">
+  <div class="dayhead"><h2>Day 1・11/15（日）抵達逢甲</h2><p>晚間抵達，夜市當晚餐</p></div>
+  <ol class="tl">
+    <li class="fixed">
+      <div class="t">18:23</div>
+      <div class="card">
+        <h3>新左營 → 台中<span class="tag ok">已訂</span></h3>
+        <p class="main">自強 150 次，18:23 開、21:03 到台中</p>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">21:05<small>~21:45</small></div>
+      <div class="card">
+        <h3>YouBike：台中車站（建國路）→ 逢甲<span class="tag est">估</span></h3>
+        <p>預計約 21:45 抵達。YouBike 前 30 分鐘免費，之後每 30 分鐘 NT$10。</p>
+      </div>
+    </li>
+    <li>
+      <div class="t">晚上</div>
+      <div class="card">
+        <h3>逢甲夜市・晚餐</h3>
+        <p class="main">夜市當晚餐。</p>
+        <a class="map" data-q="逢甲夜市 台中" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li>
+      <div class="t">夜</div>
+      <div class="card">
+        <h3>第一晚住宿・豐邑逢甲商旅</h3>
+        <p class="main">夜市後回旅館休息。</p>
+        <a class="map" data-q="豐邑逢甲商旅 台中" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ DAY 2 ============ -->
+<section class="day" id="day2">
+  <div class="dayhead"><h2>Day 2・11/16（一）海線一日</h2><p>租機車出發，木棧道要在 13:59 前離開</p></div>
+  <ol class="tl">
+    <li>
+      <div class="t">~10:00</div>
+      <div class="card">
+        <h3>豐邑逢甲商旅退房 → 取機車・中興租車 朝馬逢甲店</h3>
+        <p>台中市西屯區台灣大道三段 620 號之 1</p>
+        <div class="phone">電話：04-2451-7989 ／ 0923-157-422</div>
+        <a class="map" data-q="中興租車 朝馬逢甲店 台灣大道三段620號之1" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">~10:15<small>~11:05</small></div>
+      <div class="card">
+        <h3>逢甲 → 高美濕地<span class="tag est">估</span></h3>
+        <p>約 26–30 公里、45–55 分鐘。台 61 線普通機車禁行；台灣大道機車走慢車道，請用 Google 地圖「機車模式」導航。</p>
+      </div>
+    </li>
+    <li class="deadline">
+      <div class="t">~11:00<small>13:59 前</small></div>
+      <div class="card">
+        <h3>高美濕地・木棧道</h3>
+        <p class="main">11/16 開放：08:00–13:59、16:59–17:06（官方公告）。13:59–16:59 關閉，午餐前要先走完。</p>
+        <a class="map" data-q="高美濕地 台中市清水區" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">~12:30</div>
+      <div class="card">
+        <h3>高美 → 古早味海鮮館<span class="tag est">估</span></h3>
+        <p>約 15–18 分鐘。</p>
+      </div>
+    </li>
+    <li>
+      <div class="t">午餐</div>
+      <div class="card">
+        <h3>古早味海鮮館<span class="tag ok">週一有開・免訂位</span></h3>
+        <p class="main">梧棲區文化路二段 393 號</p>
+        <div class="phone">電話：04-2658-4232</div>
+        <p>人均約 NT$540。</p>
+        <div class="note">備案：新天地梧棲創始店（大智路二段 400 號，04-2656-2222，每日 11:30–14:00）。</div>
+        <a class="map" data-q="古早味海鮮館 梧棲區文化路二段393號" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">下午</div>
+      <div class="card">
+        <h3>古早味 → 梧棲漁港<span class="tag est">估</span></h3>
+        <p>約 12–15 分鐘。</p>
+      </div>
+    </li>
+    <li>
+      <div class="t">下午</div>
+      <div class="card">
+        <h3>梧棲漁港</h3>
+        <p class="main">逛漁港、看海。</p>
+        <a class="map" data-q="梧棲觀光漁港" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">下午</div>
+      <div class="card">
+        <h3>漁港 → 三井 Outlet<span class="tag est">估</span></h3>
+        <p>約 10–12 分鐘。</p>
+      </div>
+    </li>
+    <li>
+      <div class="t">傍晚</div>
+      <div class="card">
+        <h3>三井 Outlet Park 台中港</h3>
+        <p class="main">平日營業 11:00–21:30。可搭摩天輪（約 NT$150–170）。</p>
+        <a class="map" data-q="三井OUTLET PARK 台中港" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">晚上</div>
+      <div class="card">
+        <h3>三井 → 草悟道文旅<span class="tag est">估</span></h3>
+        <p>約 50–60 分鐘，用機車模式導航。</p>
+      </div>
+    </li>
+    <li>
+      <div class="t">夜</div>
+      <div class="card">
+        <h3>草悟道文創旅館（第二晚）</h3>
+        <p class="main">西區英才路 512 號 6–12 樓</p>
+        <div class="phone">電話：04-3501-9388</div>
+        <div class="note warn">旅館早餐自 2026/08/05 起停供，隔天早餐要在外面吃。</div>
+        <a class="map" data-q="草悟道文創旅館 英才路512號" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ DAY 3 ============ -->
+<section class="day" id="day3">
+  <div class="dayhead"><h2>Day 3・11/17（二）🎂 生日 · 草悟道、返程</h2><p>13:05 的車，還車時間要抓緊</p></div>
+  <ol class="tl">
+    <li>
+      <div class="t">早上</div>
+      <div class="card">
+        <h3>早餐 → 草悟道一帶散步</h3>
+        <p class="main">不去國美館，只逛草悟道。午餐不吃。</p>
+        <a class="map" data-q="草悟道 台中" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+      </div>
+    </li>
+    <li class="deadline">
+      <div class="t">~10:30</div>
+      <div class="card">
+        <h3>退房 → 騎回逢甲，還中興租車<span class="tag est">估</span></h3>
+        <p>還車地點是原店（朝馬逢甲店）。</p>
+      </div>
+    </li>
+    <li class="move">
+      <div class="t">~11:15<small>12:40 前</small></div>
+      <div class="card">
+        <h3>YouBike：逢甲 → 台中車站<span class="tag est">估</span></h3>
+        <p>預計 12:40 前到車站。</p>
+      </div>
+    </li>
+    <li class="fixed">
+      <div class="t">13:05</div>
+      <div class="card">
+        <h3>台中 → 高雄<span class="tag ok">已訂</span></h3>
+        <p class="main">自強（3000）121 次，13:05 開、15:36 到高雄。</p>
+        <p>之後在高雄的安排由你自己處理。</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ RAIN ============ -->
+<section class="day" id="rain">
+  <div class="dayhead"><h2>☔ 雨天備案</h2><p>目前預報三天降雨機率低，這份只在天氣變差時使用</p></div>
+
+  <div class="rainbox">
+    <h3>11/15 晚上</h3>
+    <ul>
+      <li>下雨就不騎 YouBike，改搭計程車或叫車到逢甲。</li>
+    </ul>
+  </div>
+
+  <div class="rainbox">
+    <h3>11/16 下雨</h3>
+    <ul>
+      <li>取消高美濕地，改這個順序：取車 → 古早味午餐 → 台中海洋館 → 三井 Outlet → 草悟道。</li>
+      <li>台中海洋館：週一 09:30–17:30，16:30 後不能入場，全票 NT$500。</li>
+      <li>只是小雨或陰天：高美仍可去，但木棧道濕滑，13:59 前離開的限制不變。</li>
+      <li>取車時問有沒有雨衣。下雨時台灣大道慢車道更危險，放慢，必要時改叫車。</li>
+    </ul>
+  </div>
+
+  <div class="rainbox">
+    <h3>11/17 下雨</h3>
+    <ul>
+      <li>草悟道一帶改成室內走走。</li>
+      <li>還車後改搭計程車去台中車站，不騎 YouBike。</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('nav.tabs button'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.day'));
+  var ids = secs.map(function(s){return s.id;});
+
+  function show(id, pushHash){
+    if (ids.indexOf(id) < 0) id = 'day1';
+    secs.forEach(function(s){ s.classList.toggle('on', s.id === id); });
+    tabs.forEach(function(b){ b.setAttribute('aria-selected', b.dataset.tab === id ? 'true' : 'false'); });
+    if (pushHash){ try { location.hash = id; } catch(e){} }
+    window.scrollTo(0, 0);
+  }
+  tabs.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab, true); }); });
+  window.addEventListener('hashchange', function(){ show(location.hash.replace('#',''), false); });
+  show(location.hash.replace('#','') || 'day1', false);
+
+  Array.prototype.forEach.call(document.querySelectorAll('a.map'), function(a){
+    a.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(a.dataset.q);
+  });
+})();
+</script>
+</body>
+</html>
